@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cleanzor</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap">
+  <!-- Note: External font link may not work; use @font-face as in CSS -->
+</head>
+
+<body class="body login-page"> <!-- Added class for page-specific targeting -->
+  <div class="login-header">
+    <span class="title">Welcome Back!</span>
+    <span class="subtitle">Login to your account.</span>
+  </div>
+
+  <div class="logo-container">
+    <img src="Cleanzor_logo.png" alt="Cleanzor Logo" />
+  </div>  
+  <h2 class="centered-title">CLEANZOR</h2>
+
+  <div class="centered-div">
+    <form class="login-form"> <!-- Wrapped form for better semantics -->
+      <div class="form-group">
+        <label for="email" class="labelBox">Email</label>
+        <input type="email" id="email" placeholder="Enter your email" class="inputBox" required />
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="labelBox">Password</label>
+        <input type="password" id="password" placeholder="Enter your password" class="inputBox" required />
+      </div>
+
+      <div class="form-group show-password-group">
+        <div class="show-password-left">
+          <input type="checkbox" class="checkbox" id="showPassword" />
+          <label for="showPassword">Show Password</label>
+        </div>
+        <a href="#" class="forgot-password">Forgot Password?</a>
+      </div>
+
+      <button type="submit" id="btnLogin" class="btn-login">LOGIN</button>
+      <p class="text-center-white">Don’t have an account? 
+        <a href="#" id="signupBtn">Signup</a>
+      </p>
+    </form>
+  </div>
+
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="loader">LOADING...</div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

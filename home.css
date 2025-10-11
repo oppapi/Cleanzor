@@ -1,0 +1,407 @@
+* {
+  box-sizing: border-box;
+}
+
+body.home-body-white {
+  font-family: 'Montserrat', sans-serif;
+  height: 100%;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #D5F4EC;
+  display: grid;
+  grid-template-rows: 100px auto 100px;
+  row-gap: 20px;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+}
+
+.title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.home-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #00A887;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Changed to flex-start to allow better spacing */
+  align-items: center;
+  border-bottom-left-radius: clamp(30px, 8vw, 50px); /* Scaled for mobile */
+  border-bottom-right-radius: clamp(30px, 8vw, 50px);
+  padding: clamp(1rem, 4vw, 1.5rem) 0; /* Increased min padding for more breathing room */
+  box-sizing: border-box;
+  z-index: 10;
+  min-height: 220px; /* Slightly increased to accommodate spacing without overlap */
+}
+
+.home-header-container {
+  display: flex;
+  align-items: center; /* Centered vertically for better alignment */
+  justify-content: space-between;
+  padding: clamp(0.5rem, 2.5vw, 1.5rem); /* Slightly increased min padding */
+  gap: clamp(10px, 3vw, 20px); /* Slightly larger gap for better separation */
+  border-radius: 10px;
+  color: white;
+  font-family: 'Toonish', 'Montserrat', sans-serif;
+  width: 100%;
+  max-width: 100%; /* Full width, no overflow */
+  overflow: hidden; /* Hide any potential overflow on very small screens */
+  margin-bottom: 0.1rem; /* Reduced bottom margin to lessen gap with centered-date */
+}
+
+.icon-img {
+  width: clamp(40px, 8vw, 60px); /* Increased min and scale for larger icons on mobile */
+  height: auto;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  margin: 0; /* Explicitly clean margins */
+}
+
+.home-header-text {
+  margin-top: 0;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  text-align: center;
+  flex: 1;
+  flex-shrink: 1;
+  padding: 0 clamp(0.5rem, 2vw, 1rem);
+  min-width: 0;
+}
+
+.home-header-text .title {
+  display: block;
+  line-height: 1;
+  font-size: clamp(1.5rem, 4.5vw, 3rem);
+  font-weight: 200;
+  letter-spacing: clamp(2px, 0.5vw, 6px); /* increased and responsive */
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.home-header-text .date {
+  display: block;
+  font-size: clamp(0.9rem, 2vw, 1.4rem);
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  padding: 0.5rem; /* Added padding for better touch target on mobile */
+  margin: 0; /* Clean explicit margins */
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* Prevent buttons from shrinking */
+}
+
+.icon-btn:hover .icon-img {
+  transform: scale(1.1); 
+  opacity: 0.9;
+}
+
+.centered-date {
+  position: static;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 2px;
+  text-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+  text-align: center;
+    margin-top: 0; /* no top margin for tight spacing */
+  margin-bottom: 0.5rem; /* keep bottom breathing room */
+  white-space: nowrap;
+  order: 2;
+}
+
+.cleanzor-profile {
+  position: absolute;
+  bottom: clamp(-20px, -3vw, -15px); /* Reduced negative bottom to less protrusion, more contained */
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(60px, 12vw, 100px); /* Fixed original clamp issue */
+  height: auto;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+  z-index: 5; /* Ensure it's above background but below other elements if needed */
+}
+
+.centered-battery-label {
+  position: absolute;
+  top: clamp(130%, 140%, 135%); /* Increased top to lower and space out, reducing overlap */
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Toonish', sans-serif;
+  font-size: 1.2rem; /* Fixed font size */
+  font-weight: 590;
+  color: #115E38;
+  letter-spacing: 2px;
+  text-align: center;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+.battery {
+  position: absolute;
+  top: clamp(160%, 170%, 165%); /* Increased top to lower and create more space above */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(200px, 50vw, 340px); /* Increased min for better mobile fit */
+  height: clamp(40px, 10vh, 60px); /* Scaled height */
+  background-color: #006b5c !important;
+  border-radius: 8px;
+  padding: clamp(2px, 1vh, 5px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 5;
+}
+
+.battery::after {
+  content: '';
+  position: absolute;
+  right: -7px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(8px, 2vw, 12.5px);
+  height: clamp(35px, 8vh, 50px);
+  background-color: #006b5c !important;
+  border-radius: 3px;
+}
+
+.segment {
+  flex: 1;
+  height: 103%;
+  margin: 0 clamp(1px, 0.5vw, 2px);
+  background-color: #D7F291 !important;
+  border-radius: 5px;
+}
+
+.fill {
+  height: 100%;
+  width: 0%;
+  background-color: #00C49F !important;
+  transition: width 0.3s ease, background-color 0.3s ease;
+  border-radius: 5px;
+}
+
+.bottom-rectangle {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 90px; /* Fixed height, non-responsive */
+  background-color: #00A887;
+  border-top-left-radius: clamp(20px, 6vw, 40px); /* Scaled (width-related) */
+  border-top-right-radius: clamp(20px, 6vw, 40px);
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bottom-container {
+  display: flex;
+  justify-content: space-between; /* Keeps buttons on sides */
+  align-items: center;
+  width: clamp(250px, 85vw, 1000px); /* Responsive width only */
+  height: 100%; /* Fill fixed container height */
+  padding: 0 clamp(0.25rem, 2vw, 1.5rem); /* Scaled padding for width fit */
+  gap: clamp(5px, 2vw, 19px); /* Smaller gap on mobile for horizontal fit */
+}
+
+.left-column,
+.right-column {
+  flex: 1; 
+  display: flex;
+  justify-content: center; 
+}
+
+.btn-footer {
+  width: 100%; 
+  max-width: clamp(100px, 35vw, 180px); /* Scaled max-width for mobile horizontal fit */
+  background-color: #B9DA65;
+  color: #115E38;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  height: 45px; /* Fixed height, non-responsive */
+  border-radius: 9999px;
+  font-size: 0.8rem; /* Fixed font size */
+  transition: background-color 0.3s;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.5);
+  flex-shrink: 1; /* Allow shrinking on mobile */
+  white-space: normal; /* Allow text wrap if needed on very small screens */
+  padding: 0 0.5rem; /* Internal padding for text fit */
+  text-align: center;
+  margin: 0; /* Clean margins */
+}
+
+.btn-start-cleaning {
+  position: absolute;
+  top: clamp(190%, 200%, 195%); /* Increased top to lower and space out */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #B9DA65;
+  color: black;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 650;
+  padding: clamp(0.4rem, 2vh, 0.6rem) clamp(1rem, 4vw, 2rem);
+  border-radius: 9999px;
+  font-size: 1.25rem; /* Fixed font size */
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.9);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  min-width: 150px; /* Prevent too-narrow on mobile */
+  z-index: 5;
+  margin: 0.5rem 0; /* Added margin for extra white space */
+}
+
+.btn-start-cleaning:active {
+  transform: translateX(-50%) scale(0.97);
+}
+
+.btn-start-cleaning.charging {
+  background-color: #B9DA65;
+  color: #115E38;
+}
+
+.btn-start-cleaning.cleaning {
+  background-color: #A7D149; 
+  color: #115E38
+}
+
+.status-text {
+  position: absolute;
+  top: clamp(230%, 240%, 225%); /* Increased top to lower and maximize space below */
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem; /* Fixed font size */
+  font-weight: 500;
+  color: #2a2a2a;
+  text-align: center;
+  width: 100%;
+  max-width: 90%; /* Prevent overflow */
+  z-index: 5;
+  margin-top: 0.5rem; /* Added margin for white space */
+}
+
+.info-container {
+  display: inline-block;
+  text-align: left;
+  background-color: #D5F4EC;
+  padding: clamp(0.5rem, 2vh, 1rem) clamp(0.75rem, 3vw, 1.5rem);
+  border-radius: 12px;
+  min-width: clamp(280px, 80vw, 340px); /* Reduced min for mobile */
+  max-width: 90%;      
+  width: fit-content;  
+  box-sizing: border-box;
+  margin-top: 2rem; /* Increased margin for more white space from header elements */
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+  flex-wrap: wrap; /* Allow wrapping on very small screens */
+  gap: 0.5rem;
+}
+
+.label,
+.value {
+  font-weight: 700;
+  color: #0b6b57;
+  flex: 1; /* Equal space on wrap */
+  min-width: 120px; /* Prevent too-narrow labels */
+}
+
+/* Mobile Styles (≤ 480px) */
+@media (max-width: 480px) {
+  .home-header-container {
+    padding: 0.5rem;
+
+    align-items: center;
+  }
+
+  .home-header-text {
+    padding: 0 0.5rem;
+    letter-spacing: 1px;
+  }
+
+  .icon-btn {
+    padding: 0.75rem; /* Larger padding for better mobile interaction */
+  }
+
+  /* Bottom container: Keep horizontal, adjust for width fit only */
+  .bottom-container {
+    padding: 0 0.5rem; /* Slightly increased */
+    gap: 10px; /* Slightly larger gap for horizontal fit */
+  }
+
+  .btn-footer {
+    max-width: 120px; /* Slightly increased for better fit with larger icons */
+    padding: 0 0.5rem; /* Maintain internal padding */
+  }
+
+  .info-row {
+    justify-content: center; /* Center on mobile if wrapped */
+  }
+
+  .label,
+  .value {
+    min-width: auto; /* Allow full wrap */
+    text-align: center;
+  }
+}
+
+/* Tablet Styles (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .home-header-container {
+    padding: 0.75rem 1rem;
+    gap: 15px;
+  }
+
+  .info-container {
+    min-width: 300px;
+  }
+
+  .bottom-container {
+    width: clamp(300px, 80vw, 600px);
+    gap: 10px;
+  }
+
+  .btn-footer {
+    max-width: 140px;
+  }
+}
+
+/* Desktop Styles (> 768px) - Mostly original, with minor tweaks */
+@media (min-width: 769px) {
+  .home-header {
+    padding: 1.25rem 0; /* Slightly increased for consistency */
+  }
+
+  .info-container {
+    min-width: 340px;
+  }
+
+  .bottom-container {
+    gap: 19px;
+  }
+}
