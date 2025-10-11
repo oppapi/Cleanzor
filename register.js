@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         alert('Account created successfully! Redirecting to login...');
         // Redirect to login page (adjust URL as needed)
-        window.location.href = 'login.html'; // Changed to relative path for local files; adjust if needed
+        window.location.href = 'index.html'; // Changed to relative path for local files; adjust if needed
       })
       .catch((error) => {
         console.error('Signup error:', error);

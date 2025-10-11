@@ -24,56 +24,45 @@ const auth = getAuth(app);
 
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOM loaded - starting element checks...'); // Debug: Confirm event fires
-
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
   const showPasswordCheckbox = document.getElementById('showPassword');
-  const loginButton = document.getElementById('submit'); // Matches HTML id="submit"
-  const loginForm = document.querySelector('.login-form'); // Matches HTML class="login-form"
+  const loginButton = document.getElementById('btnLogin');
+  const loginForm = document.getElementById('loginForm'); // Assumes form ID
 
-  // Debug: Log each element to see what's missing (remove after testing)
-  console.log('emailInput:', emailInput);
-  console.log('passwordInput:', passwordInput);
-  console.log('showPasswordCheckbox:', showPasswordCheckbox);
-  console.log('loginButton:', loginButton);
-  console.log('loginForm:', loginForm);
-
-  // Early return if required elements are missing (prevents crashes)
-  if (!emailInput || !passwordInput || !loginForm || !loginButton) {
-    console.error('Required form elements not found. Check your HTML selectors.');
-    console.error('Missing elements:', {
-      email: !!emailInput,
-      password: !!passwordInput,
-      form: !!loginForm,
-      button: !!loginButton
-    });
+  // Early return if required elements are missing
+  if (!emailInput || !passwordInput || !loginForm) {
+    console.error('Required form elements not found. Check your HTML.');
     return;
   }
 
-  console.log('All elements found - initializing login...'); // Debug: Success
-
-  // Show/hide password toggle (safe: checks for checkbox existence)
+  // Show/hide password toggle
   if (showPasswordCheckbox) {
     showPasswordCheckbox.addEventListener('change', () => {
       passwordInput.type = showPasswordCheckbox.checked ? 'text' : 'password';
     });
   }
 
-  // Handle form submission (safe: loginForm is checked above)
+  // Handle form submission (preferred for login)
   loginForm.addEventListener('submit', function(event) {
     event.preventDefault();
     handleLogin();
   });
 
-  // No need for fallback button click listener - form submission handles it
+  // Fallback: Button click listener (in case button is not type="submit")
+  if (loginButton) {
+    loginButton.addEventListener('click', function(event) {
+      event.preventDefault();
+      handleLogin();
+    });
+  }
 
   // Login handler function
   function handleLogin() {
     const email = emailInput.value.trim();
     const password = passwordInput.value.trim();
 
-    // Reset previous errors
+    // Reset previous errors (optional: clear any error styling if you have it)
     emailInput.classList.remove('error');
     passwordInput.classList.remove('error');
 
@@ -100,9 +89,11 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
-    // Disable button during login to prevent multiple submissions (safe: loginButton checked above)
-    loginButton.disabled = true;
-    loginButton.textContent = 'LOGGING IN...'; // Matches your button style
+    // Disable button during login to prevent multiple submissions
+    if (loginButton) {
+      loginButton.disabled = true;
+      loginButton.textContent = 'Logging in...';
+    }
 
     // Firebase login
     signInWithEmailAndPassword(auth, email, password)
@@ -111,44 +102,41 @@ document.addEventListener('DOMContentLoaded', function() {
         const user = userCredential.user;
         console.log('User logged in:', user.uid);
 
-        // Optional: Fetch additional user data from Firestore
-        // const userRef = doc(db, 'users', user.uid);
-        // getDoc(userRef).then((docSnap) => {
-        //   if (docSnap.exists()) {
-        //     console.log('User data:', docSnap.data());
-        //     // e.g., Update UI with fullName or cleanzorID
-        //   }
-        // }).catch((error) => {
-        //   console.error('Error fetching user data:', error);
-        // });
-
+        
         showLoadingAndRedirect('home.html');
       })
-         .catch((error) => {
-           console.error('Login error:', error);
-           let errorMessage = 'Login failed. Please check your email and password.';
-           switch (error.code) {
-             case 'auth/user-not-found':
-               errorMessage = 'No account found with this email. Please sign up.';
-               break;
-             case 'auth/wrong-password':
-               errorMessage = 'Incorrect password. Please try again.';
-               break;
-             case 'auth/invalid-credential':  // Add this case
-               errorMessage = 'Invalid email or password. Please try again.';
-               break;
-             // ... other cases
-             default:
-               errorMessage = error.message || 'An unexpected error occurred.';
-           }
-           alert(errorMessage);
+      .catch((error) => {
+        console.error('Login error:', error);
+        let errorMessage = 'Login failed. Please check your credentials.';
+        switch (error.code) {
+          case 'auth/user-not-found':
+            errorMessage = 'No account found with this email. Please sign up.';
+            break;
+          case 'auth/wrong-password':
+            errorMessage = 'Incorrect password. Please try again.';
+            break;
+          case 'auth/invalid-email':
+            errorMessage = 'Invalid email address.';
+            break;
+          case 'auth/too-many-requests':
+            errorMessage = 'Too many failed attempts. Please try again later.';
+            break;
+          case 'auth/network-request-failed':
+            errorMessage = 'Network error. Please check your connection and try again.';
+            break;
+          default:
+            errorMessage = error.message || 'An unexpected error occurred.';
+        }
+        alert(errorMessage);
         passwordInput.value = ''; // Clear password on error for security
         passwordInput.classList.add('error');
         passwordInput.focus();
 
         // Re-enable button
-        loginButton.disabled = false;
-        loginButton.textContent = 'LOGIN'; // Restore original text
+        if (loginButton) {
+          loginButton.disabled = false;
+          loginButton.textContent = 'Login';
+        }
       });
   }
 
@@ -162,4 +150,5 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.href = url;
     }, 500);
   }
+
 });
