@@ -13,9 +13,6 @@
 </head>
 
 <body class="body login-page"> 
-  <!-- Toast Notifications Container (fixed position, top-right) -->
-  <ul class="notifications"></ul>
-
   <div class="login-header">
     <span class="title">Welcome Back!</span>
     <span class="subtitle">Login to your account.</span>
@@ -44,7 +41,7 @@
           <label for="showPassword">Show Password</label>
         </div>
         <!-- Optional: Add onclick for loading redirect if needed -->
-        <a href="forgot.html" class="forgot-password" onclick="showLoadingAndRedirect('forgot.html'); return false;">Forgot Password?</a>
+        <a href="forgot.html" class="forgot-password" onclick="if (typeof showLoadingAndRedirect === 'function') showLoadingAndRedirect('forgot.html'); else window.location.href = 'forgot.html'; return false;">Forgot Password?</a>
       </div>
 
       <button type="submit" id="submit" class="btn-login">LOGIN</button>
@@ -59,7 +56,8 @@
     <div class="loader">LOADING...</div>
   </div>
 
+  <ul class="notifications" aria-live="polite" aria-atomic="true" role="status"></ul>
+
   <script type="module" src="main.js" defer></script>
-  <!-- Remove toast.js if toasts are in main.js; otherwise, ensure no duplicates -->
 </body>
 </html>

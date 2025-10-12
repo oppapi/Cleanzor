@@ -11,12 +11,19 @@
 
 .notifications {
   position: fixed !important;
-  top: 80px;
+  top: 80px; /* Base: Below typical headers */
   left: 50%;
   transform: translateX(-50%);
   z-index: 10001 !important;
   overflow: visible !important;
   font-family: 'Poppins', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  gap: 10px; /* Fixed: Added gap for better vertical spacing between toasts */
+  pointer-events: none; /* Allow clicks through empty space */
 }
 
 .notifications :where(.toast, .column) {
@@ -25,122 +32,158 @@
 }
 
 .notifications .toast {
-  width: 400px;
+  width: min(400px, 90vw);
   position: relative;
   overflow: hidden;
   list-style: none;
   border-radius: 4px;
   padding: 16px 17px;
-  margin-bottom: 10px;
+  margin-bottom: 0; /* Rely on container gap instead */
   background: var(--light);
   justify-content: space-between;
   animation: show_toast 0.3s ease forwards;
-  z-index: 10001 !important;
+  z-index: inherit; /* Inherit from container to stack properly */
   will-change: transform;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  pointer-events: auto;
+  pointer-events: auto; /* Enable interaction on toasts only */
+  min-height: 50px; /* Fixed: Consistent touch target on mobile */
+  transform-origin: center right; /* Fixed: Better animation origin for slide-in */
 }
 
+/* Consolidated Mobile Fixes (≤480px: Full responsive, avoids overlap with headers) */
+@media screen and (max-width: 480px) {
+  .notifications {
+    top: 60px; /* Fixed: Unified top (accounts for ~50px header + padding; adjust if needed) */
+    left: 5%; /* Shift slightly left for better centering on narrow screens */
+    right: 5%;
+    transform: none; /* Fixed: Remove translateX to use left/right for full-width control */
+    width: 90%; /* Fixed: Container width to prevent edge overflow */
+    gap: 15px; /* More space between stacked toasts */
+    align-items: stretch; /* Stretch toasts to full container width */
+  }
+
+  .notifications .toast {
+    width: 100%; /* Full width within container */
+    padding: 12px 14px;
+    border-radius: 6px; /* Slightly larger for touch */
+    font-size: 0.95rem; /* Slightly smaller text */
+    margin: 0; /* No extra margin */
+  }
+
+  /* Legacy 530px query removed; consolidated into 480px for consistency */
+}
+
+/* Extra small screens (e.g., <360px) for tighter spacing */
+@media screen and (max-width: 360px) {
+  .notifications {
+    top: 50px; /* Even lower if header is smaller */
+    left: 2%;
+    right: 2%;
+    width: 96%;
+    gap: 12px;
+  }
+
+  .notifications .toast {
+    padding: 10px 12px;
+  }
+}
+
+/* Animations (adjusted for better centering and slide from right) */
 @keyframes show_toast {
   0% {
-    transform: translateX(100%);
+    transform: translateX(100%) scale(0.95); /* Slide from right, slight scale for pop */
+    opacity: 0;
   }
   40% {
-    transform: translateX(-5%);
+    transform: translateX(-2%) scale(1.02);
+    opacity: 0.8;
   }
   80% {
-    transform: translateX(0%);
+    transform: translateX(0);
+    opacity: 1;
   }
   100% {
-    transform: translateX(-10px);
+    transform: translateX(0); /* End centered, no final offset to avoid jitter */
   }
 }
 
 .notifications .toast.hide {
   animation: hide_toast 0.3s ease forwards;
+  opacity: 0; /* Immediate fade for smoother removal */
 }
 
 @keyframes hide_toast {
   0% {
-    transform: translateX(-10px);
+    transform: translateX(0);
+    opacity: 1;
   }
   40% {
-    transform: translateX(0%);
+    transform: translateX(2%);
   }
   80% {
-    transform: translateX(-5%);
+    transform: translateX(-2%);
   }
   100% {
-    transform: translateX(calc(100% + 20px));
+    transform: translateX(100%); /* Slide out to right */
+    opacity: 0;
   }
 }
 
+/* Progress Bar (ensured no clipping on mobile) */
 .toast::before {
   position: absolute;
   content: "";
   height: 3px;
   width: 100%;
-  bottom: 0px;
-  left: 0px;
-  animation: progress 5s linear forwards;
+  bottom: 0;
+  left: 0;
+  animation: progress 5s linear forwards; /* Matches default timer */
+  z-index: 1; /* Above background */
 }
 
 @keyframes progress {
   100% {
-    width: 0%;
+    width: 0;
   }
 }
 
-.toast.success::before {
-  background: var(--success);
-}
+.toast.success::before { background: var(--success); }
+.toast.error::before { background: var(--error); }
+.toast.warning::before { background: var(--warning); }
+.toast.info::before { background: var(--info); }
 
-.toast.error::before {
-  background: var(--error);
-}
-
-.toast.warning::before {
-  background: var(--warning);
-}
-
-.toast.info::before {
-  background: var(--info);
-}
-
+/* Icon and Text Styling */
 .toast .column i {
   font-size: 1.75rem;
+  flex-shrink: 0; /* Prevent icon squeeze on narrow toasts */
 }
 
-.toast.success .column i {
-  color: var(--success);
-}
-
-.toast.error .column i {
-  color: var(--error);
-}
-
-.toast.warning .column i {
-  color: var(--warning);
-}
-
-.toast.info .column i {
-  color: var(--info);
-}
+.toast.success .column i { color: var(--success); }
+.toast.error .column i { color: var(--error); }
+.toast.warning .column i { color: var(--warning); }
+.toast.info .column i { color: var(--info); }
 
 .toast .column span {
   font-size: 1.07rem;
   margin-left: 12px;
+  flex: 1; /* Grow to fill space */
+  word-break: break-word; /* Prevent long text overflow */
 }
 
 .toast i:last-child {
   color: #aeb0d7;
   cursor: pointer;
+  font-size: 1.2rem; /* Slightly larger for touch */
+  padding: 4px; /* Touch target */
+  margin-left: 8px;
+  flex-shrink: 0;
 }
 
 .toast i:last-child:hover {
   color: var(--dark);
 }
 
+/* Demo Buttons (unchanged, but added mobile padding) */
 .buttons .btn {
   border: none;
   outline: none;
@@ -150,34 +193,29 @@
   font-size: 1.2rem;
   padding: 10px 20px;
   border-radius: 4px;
-  background: var(--dark); 
+  background: var(--dark);
 }
 
-@media screen and (max-width: 530px) {
-  .notifications {
-    top: 60px; 
-    right: 10px;
-    left: 10px;
-    width: auto;
-  }
-  .notifications .toast {
-    width: 100%;
-    font-size: 1rem;
-    margin-left: 0; 
-    min-width: auto;
-  }
+@media screen and (max-width: 480px) { /* Aligned with main mobile query */
   .buttons .btn {
-    margin: 0 1px;
+    margin: 0 2px;
     font-size: 1.1rem;
-    padding: 8px 15px;
+    padding: 8px 12px; /* Tighter on mobile */
   }
 }
 
+/* Error Input Styling (integrates with style.css .inputBox) */
 .inputBox.error {
   border-color: var(--error) !important;
   box-shadow: 0 0 5px rgba(226, 77, 76, 0.3) !important;
 }
 
+.inputBox.error:focus {
+  border-color: var(--error) !important;
+  box-shadow: 0 0 0 2px rgba(226, 77, 76, 0.3) !important; /* Override focus for errors */
+}
+
+/* Loading Overlay (z-index below toasts) */
 .loading-overlay {
-  z-index: 9999 !important; 
+  z-index: 9999 !important;
 }
