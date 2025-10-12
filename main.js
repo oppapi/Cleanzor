@@ -28,18 +28,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const loginForm = document.querySelector('.login-form'); 
   const signupButton = document.getElementById('signupBtn');
 
-  if (!emailInput || !passwordInput || !loginForm || !loginButton || !signupButton) {
-    console.error('Required form elements not found. Check your HTML selectors.');
-    console.error('Missing elements:', {
-      email: !!emailInput,
-      password: !!passwordInput,
-      form: !!loginForm,
-      button: !!loginButton,
-      signup: !!signupButton
-    });
-    return;
-  }
-
   const notifications = document.querySelector(".notifications");
 
   const toastDetails = {
@@ -161,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         showSuccess('Login successful! Redirecting...');
 
-        showLoadingAndRedirect('home.html');
+        window.location.href(home.html);
       })
       .catch((error) => {
         console.error('Login error:', error);
