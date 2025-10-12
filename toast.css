@@ -12,7 +12,8 @@
 .notifications {
   position: fixed !important;
   top: 80px;
-  right: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 10001 !important;
   overflow: visible !important;
   font-family: 'Poppins', sans-serif;
@@ -178,5 +179,5 @@
 }
 
 .loading-overlay {
-  z-index: 9999 !important; /* Below toasts (10001) */
+  z-index: 9999 !important; 
 }

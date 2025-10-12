@@ -40,11 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
     return;
   }
 
-  // Toast Notification Setup (moved up to ensure functions are defined before use)
   const notifications = document.querySelector(".notifications");
-  if (!notifications) {
-    console.warn('Notifications container (.notifications) not found in HTML. Toasts will not display.');
-  }
 
   const toastDetails = {
       timer: 5000,
@@ -73,41 +69,34 @@ document.addEventListener('DOMContentLoaded', function() {
       setTimeout(() => toast.remove(), 500); 
   }
 
-  // Expose removeToast globally for inline onclick usage in toast HTML
   window.removeToast = removeToast;
 
   const createToast = (id, customText = null) => {
-      if (!notifications) return; // Skip if no container
+      if (!notifications) return; 
 
-      // Getting the icon and default text for the toast based on the id passed
       const { icon, defaultText } = toastDetails[id];
       const text = customText || defaultText;
-      const toast = document.createElement("li"); // Creating a new 'li' element for the toast
-      toast.className = `toast ${id}`; // Setting the classes for the toast
+      const toast = document.createElement("li");
+      toast.className = `toast ${id}`;
       // Setting the inner HTML for the toast
       toast.innerHTML = `<div class="column">
                            <i class="fa-solid ${icon}"></i>
                            <span>${text}</span>
                         </div>
                         <i class="fa-solid fa-xmark" onclick="removeToast(this.parentElement)"></i>`;
-      notifications.appendChild(toast); // Append the toast to the notification ul
-      // Setting a timeout to remove the toast after the specified duration
+      notifications.appendChild(toast);
       toast.timeoutId = setTimeout(() => removeToast(toast), toastDetails.timer);
   }
 
-  // Four methods, each taking one argument for custom text (exposed globally if needed for HTML onclick)
   const showSuccess = (text) => createToast('success', text);
   const showError = (text) => createToast('error', text);
   const showWarning = (text) => createToast('warning', text);
   const showInfo = (text) => createToast('info', text);
-
-  // Expose to window for potential HTML onclick calls (e.g., from other pages)
   window.showSuccess = showSuccess;
   window.showError = showError;
   window.showWarning = showWarning;
   window.showInfo = showInfo;
 
-  // Optional: Add event listeners for any .buttons .btn on this page (skip if none exist)
   const buttons = document.querySelectorAll(".buttons .btn");
   if (buttons.length > 0) {
       buttons.forEach(btn => {
@@ -170,7 +159,6 @@ document.addEventListener('DOMContentLoaded', function() {
       .then((userCredential) => {
         const user = userCredential.user;
 
-        // Optional: Show success toast before redirect (it may not fully animate due to quick redirect)
         showSuccess('Login successful! Redirecting...');
 
         showLoadingAndRedirect('home.html');
@@ -212,7 +200,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 250); 
   }
 
-  // Expose showLoadingAndRedirect globally for optional inline HTML onclick usage (e.g., forgot password link)
   window.showLoadingAndRedirect = showLoadingAndRedirect;
-
 });
