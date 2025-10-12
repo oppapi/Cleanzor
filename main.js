@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         showSuccess('Login successful! Redirecting...');
 
-        window.location.href(home.html);
+        window.location.href = "home.html";
       })
       .catch((error) => {
         console.error('Login error:', error);
