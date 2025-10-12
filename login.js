@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
     if (password.length < 6) {
-      alert('Password must be at least 6 characters long.');
+      alert('Password must be at least 6 characters lfwefwong.');
       passwordInput.classList.add('error');
       passwordInput.focus();
       return;
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
       .catch((error) => {
         console.error('Login error:', error);
         let errorMessage = 'Login failed. Please check your credentials.';
-        
+
         switch (error.code) {
           case 'auth/user-not-found':
             showWarning('No account found with this email. Please sign up.');

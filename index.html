@@ -8,9 +8,14 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap">
   <link rel="stylesheet" href="toast.css">
+  <!-- Font Awesome for toast icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body class="body login-page"> 
+  <!-- Toast Notifications Container (fixed position, top-right) -->
+  <ul class="notifications"></ul>
+
   <div class="login-header">
     <span class="title">Welcome Back!</span>
     <span class="subtitle">Login to your account.</span>
@@ -25,12 +30,12 @@
     <form class="login-form">
       <div class="form-group">
         <label for="email" class="labelBox">Email</label>
-        <input type="email" id="email" placeholder="Enter your email" class="inputBox" required />
+        <input type="email" id="email" placeholder="Enter your email" class="inputBox" required autocomplete="email" />
       </div>
 
       <div class="form-group">
         <label for="password" class="labelBox">Password</label>
-        <input type="password" id="password" placeholder="Enter your password" class="inputBox" required />
+        <input type="password" id="password" placeholder="Enter your password" class="inputBox" required autocomplete="off" />
       </div>
 
       <div class="form-group show-password-group">
@@ -38,14 +43,15 @@
           <input type="checkbox" class="checkbox" id="showPassword" />
           <label for="showPassword">Show Password</label>
         </div>
-        <a href="forgot.html" class="forgot-password">Forgot Password?</a>
+        <!-- Optional: Add onclick for loading redirect if needed -->
+        <a href="forgot.html" class="forgot-password" onclick="showLoadingAndRedirect('forgot.html'); return false;">Forgot Password?</a>
       </div>
 
       <button type="submit" id="submit" class="btn-login">LOGIN</button>
-   <p class="text-center-white">
-    Don’t have an account?
-    <a href="signup.html" id="signupBtn" onclick="showLoadingAndRedirect('signup.html'); return false;">Signup</a>
-  </p>
+      <p class="text-center-white">
+        Don’t have an account?
+        <a href="signup.html" id="signupBtn">Signup</a>
+      </p>
     </form>
   </div> 
 
@@ -54,6 +60,6 @@
   </div>
 
   <script type="module" src="main.js" defer></script>
-  <script src="toast.js" defer></script>
+  <!-- Remove toast.js if toasts are in main.js; otherwise, ensure no duplicates -->
 </body>
 </html>

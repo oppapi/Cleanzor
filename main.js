@@ -40,6 +40,81 @@ document.addEventListener('DOMContentLoaded', function() {
     return;
   }
 
+  // Toast Notification Setup (moved up to ensure functions are defined before use)
+  const notifications = document.querySelector(".notifications");
+  if (!notifications) {
+    console.warn('Notifications container (.notifications) not found in HTML. Toasts will not display.');
+  }
+
+  const toastDetails = {
+      timer: 5000,
+      success: {
+          icon: 'fa-circle-check',
+          defaultText: 'Success: This is a success toast.',
+      },
+      error: {
+          icon: 'fa-circle-xmark',
+          defaultText: 'Error: This is an error toast.',
+      },
+      warning: {
+          icon: 'fa-triangle-exclamation',
+          defaultText: 'Warning: This is a warning toast.',
+      },
+      info: {
+          icon: 'fa-circle-info',
+          defaultText: 'Info: This is an information toast.',
+      }
+  }
+
+  const removeToast = (toast) => {
+      if (!toast) return;
+      toast.classList.add("hide");
+      if (toast.timeoutId) clearTimeout(toast.timeoutId); 
+      setTimeout(() => toast.remove(), 500); 
+  }
+
+  // Expose removeToast globally for inline onclick usage in toast HTML
+  window.removeToast = removeToast;
+
+  const createToast = (id, customText = null) => {
+      if (!notifications) return; // Skip if no container
+
+      // Getting the icon and default text for the toast based on the id passed
+      const { icon, defaultText } = toastDetails[id];
+      const text = customText || defaultText;
+      const toast = document.createElement("li"); // Creating a new 'li' element for the toast
+      toast.className = `toast ${id}`; // Setting the classes for the toast
+      // Setting the inner HTML for the toast
+      toast.innerHTML = `<div class="column">
+                           <i class="fa-solid ${icon}"></i>
+                           <span>${text}</span>
+                        </div>
+                        <i class="fa-solid fa-xmark" onclick="removeToast(this.parentElement)"></i>`;
+      notifications.appendChild(toast); // Append the toast to the notification ul
+      // Setting a timeout to remove the toast after the specified duration
+      toast.timeoutId = setTimeout(() => removeToast(toast), toastDetails.timer);
+  }
+
+  // Four methods, each taking one argument for custom text (exposed globally if needed for HTML onclick)
+  const showSuccess = (text) => createToast('success', text);
+  const showError = (text) => createToast('error', text);
+  const showWarning = (text) => createToast('warning', text);
+  const showInfo = (text) => createToast('info', text);
+
+  // Expose to window for potential HTML onclick calls (e.g., from other pages)
+  window.showSuccess = showSuccess;
+  window.showError = showError;
+  window.showWarning = showWarning;
+  window.showInfo = showInfo;
+
+  // Optional: Add event listeners for any .buttons .btn on this page (skip if none exist)
+  const buttons = document.querySelectorAll(".buttons .btn");
+  if (buttons.length > 0) {
+      buttons.forEach(btn => {
+          btn.addEventListener("click", () => createToast(btn.id));
+      });
+  }
+
   if (showPasswordCheckbox) {
     showPasswordCheckbox.addEventListener('change', () => {
       passwordInput.type = showPasswordCheckbox.checked ? 'text' : 'password';
@@ -67,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Email validation
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailPattern.test(email)) {
-      alert('Please enter a valid email address.');
+      showError('Please enter a valid email address.');
       emailInput.classList.add('error');
       emailInput.focus();
       return;
@@ -75,13 +150,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Password validation
     if (password === '') {
-      alert('Please enter your password.');
+      showError('Please enter your password.');
       passwordInput.classList.add('error');
       passwordInput.focus();
       return;
     }
     if (password.length < 6) {
-      alert('Password must be at least 6 characters long.');
+      showError('Password must be at least 6 characters long.');
       passwordInput.classList.add('error');
       passwordInput.focus();
       return;
@@ -94,6 +169,9 @@ document.addEventListener('DOMContentLoaded', function() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+
+        // Optional: Show success toast before redirect (it may not fully animate due to quick redirect)
+        showSuccess('Login successful! Redirecting...');
 
         showLoadingAndRedirect('home.html');
       })
@@ -113,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
           default:
             errorMessage = error.message || 'An unexpected error occurred.';
         }
-        alert(errorMessage);
+        showError(errorMessage);
         passwordInput.value = '';
         passwordInput.classList.add('error');
         passwordInput.focus();
@@ -133,4 +211,8 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.href = url;
     }, 250); 
   }
+
+  // Expose showLoadingAndRedirect globally for optional inline HTML onclick usage (e.g., forgot password link)
+  window.showLoadingAndRedirect = showLoadingAndRedirect;
+
 });
