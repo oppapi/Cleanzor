@@ -1,11 +1,8 @@
-// Import the functions you need from the Firebase SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-analytics.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-// Optional: For fetching additional user data from Firestore post-login
-// import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
-// Your web app's Firebase configuration (same as signup)
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCiBFlPxGa3tlLwPQJSssl3Bai2psbqwJY",
   authDomain: "cleanzorv6.firebaseapp.com",
@@ -20,36 +17,30 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
-// Optional: const db = getFirestore(app); // For Firestore
 
-// Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
   const showPasswordCheckbox = document.getElementById('showPassword');
   const loginButton = document.getElementById('btnLogin');
-  const loginForm = document.getElementById('loginForm'); // Assumes form ID
+  const loginForm = document.getElementById('loginForm'); 
 
-  // Early return if required elements are missing
   if (!emailInput || !passwordInput || !loginForm) {
     console.error('Required form elements not found. Check your HTML.');
     return;
   }
 
-  // Show/hide password toggle
   if (showPasswordCheckbox) {
     showPasswordCheckbox.addEventListener('change', () => {
       passwordInput.type = showPasswordCheckbox.checked ? 'text' : 'password';
     });
   }
 
-  // Handle form submission (preferred for login)
   loginForm.addEventListener('submit', function(event) {
     event.preventDefault();
     handleLogin();
   });
 
-  // Fallback: Button click listener (in case button is not type="submit")
   if (loginButton) {
     loginButton.addEventListener('click', function(event) {
       event.preventDefault();
@@ -57,12 +48,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Login handler function
   function handleLogin() {
     const email = emailInput.value.trim();
     const password = passwordInput.value.trim();
 
-    // Reset previous errors (optional: clear any error styling if you have it)
     emailInput.classList.remove('error');
     passwordInput.classList.remove('error');
 
@@ -89,16 +78,13 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
-    // Disable button during login to prevent multiple submissions
     if (loginButton) {
       loginButton.disabled = true;
       loginButton.textContent = 'Logging in...';
     }
 
-    // Firebase login
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in successfully
         const user = userCredential.user;
         console.log('User logged in:', user.uid);
 
@@ -128,11 +114,10 @@ document.addEventListener('DOMContentLoaded', function() {
             errorMessage = error.message || 'An unexpected error occurred.';
         }
         alert(errorMessage);
-        passwordInput.value = ''; // Clear password on error for security
+        passwordInput.value = '';
         passwordInput.classList.add('error');
         passwordInput.focus();
 
-        // Re-enable button
         if (loginButton) {
           loginButton.disabled = false;
           loginButton.textContent = 'Login';
@@ -140,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   }
 
-  // Loading and redirect function
   function showLoadingAndRedirect(url) {
     const overlay = document.getElementById('loadingOverlay');
     if (overlay) {
@@ -150,5 +134,4 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.href = url;
     }, 500);
   }
-
 });

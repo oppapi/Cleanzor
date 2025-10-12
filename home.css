@@ -13,7 +13,7 @@ body.home-body-white {
   row-gap: 20px;
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+  overflow-x: hidden;
 }
 
 .title {
@@ -31,38 +31,38 @@ body.home-body-white {
   color: white;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Changed to flex-start to allow better spacing */
+  justify-content: flex-start;
   align-items: center;
-  border-bottom-left-radius: clamp(30px, 8vw, 50px); /* Scaled for mobile */
+  border-bottom-left-radius: clamp(30px, 8vw, 50px);
   border-bottom-right-radius: clamp(30px, 8vw, 50px);
-  padding: clamp(1rem, 4vw, 1.5rem) 0; /* Increased min padding for more breathing room */
+  padding: clamp(1rem, 4vw, 1.5rem) 0;
   box-sizing: border-box;
   z-index: 10;
-  min-height: 220px; /* Slightly increased to accommodate spacing without overlap */
+  min-height: 220px;
 }
 
 .home-header-container {
   display: flex;
-  align-items: center; /* Centered vertically for better alignment */
+  align-items: center;
   justify-content: space-between;
-  padding: clamp(0.5rem, 2.5vw, 1.5rem); /* Slightly increased min padding */
-  gap: clamp(10px, 3vw, 20px); /* Slightly larger gap for better separation */
+  padding: clamp(0.5rem, 2.5vw, 1.5rem);
+  gap: clamp(10px, 3vw, 20px);
   border-radius: 10px;
   color: white;
   font-family: 'Toonish', 'Montserrat', sans-serif;
   width: 100%;
-  max-width: 100%; /* Full width, no overflow */
-  overflow: hidden; /* Hide any potential overflow on very small screens */
-  margin-bottom: 0.1rem; /* Reduced bottom margin to lessen gap with centered-date */
+  max-width: 100%;
+  overflow: hidden;
+  margin-bottom: 0.1rem;
 }
 
 .icon-img {
-  width: clamp(40px, 8vw, 60px); /* Increased min and scale for larger icons on mobile */
+  width: clamp(40px, 8vw, 60px);
   height: auto;
   border-radius: 50%;
   object-fit: cover;
   transition: transform 0.3s ease, opacity 0.3s ease;
-  margin: 0; /* Explicitly clean margins */
+  margin: 0;
 }
 
 .home-header-text {
@@ -81,7 +81,7 @@ body.home-body-white {
   line-height: 1;
   font-size: clamp(1.5rem, 4.5vw, 3rem);
   font-weight: 200;
-  letter-spacing: clamp(2px, 0.5vw, 6px); /* increased and responsive */
+  letter-spacing: clamp(2px, 0.5vw, 6px);
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
@@ -95,14 +95,14 @@ body.home-body-white {
 .icon-btn {
   background: transparent;
   border: none;
-  padding: 0.5rem; /* Added padding for better touch target on mobile */
-  margin: 0; /* Clean explicit margins */
+  padding: 0.5rem;
+  margin: 0;
   cursor: pointer;
   outline: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0; /* Prevent buttons from shrinking */
+  flex-shrink: 0;
 }
 
 .icon-btn:hover .icon-img {
@@ -119,32 +119,32 @@ body.home-body-white {
   letter-spacing: 2px;
   text-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
   text-align: center;
-    margin-top: 0; /* no top margin for tight spacing */
-  margin-bottom: 0.5rem; /* keep bottom breathing room */
+    margin-top: 0;
+  margin-bottom: 0.5rem;
   white-space: nowrap;
   order: 2;
 }
 
 .cleanzor-profile {
   position: absolute;
-  bottom: clamp(-20px, -3vw, -15px); /* Reduced negative bottom to less protrusion, more contained */
+  bottom: clamp(-20px, -3vw, -15px);
   left: 50%;
   transform: translateX(-50%);
-  width: clamp(60px, 12vw, 100px); /* Fixed original clamp issue */
+  width: clamp(60px, 12vw, 100px);
   height: auto;
   border-radius: 50%;
   object-fit: cover;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
-  z-index: 5; /* Ensure it's above background but below other elements if needed */
+  z-index: 5;
 }
 
 .centered-battery-label {
   position: absolute;
-  top: clamp(130%, 140%, 135%); /* Increased top to lower and space out, reducing overlap */
+  top: clamp(130%, 140%, 135%);
   left: 50%;
   transform: translateX(-50%);
   font-family: 'Toonish', sans-serif;
-  font-size: 1.2rem; /* Fixed font size */
+  font-size: 1.2rem;
   font-weight: 590;
   color: #115E38;
   letter-spacing: 2px;
@@ -155,11 +155,11 @@ body.home-body-white {
 
 .battery {
   position: absolute;
-  top: clamp(160%, 170%, 165%); /* Increased top to lower and create more space above */
+  top: clamp(160%, 170%, 165%);
   left: 50%;
   transform: translate(-50%, -50%);
-  width: clamp(200px, 50vw, 340px); /* Increased min for better mobile fit */
-  height: clamp(40px, 10vh, 60px); /* Scaled height */
+  width: clamp(200px, 50vw, 340px);
+  height: clamp(40px, 10vh, 60px);
   background-color: #006b5c !important;
   border-radius: 8px;
   padding: clamp(2px, 1vh, 5px);
@@ -202,9 +202,9 @@ body.home-body-white {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 90px; /* Fixed height, non-responsive */
+  height: 90px; 
   background-color: #00A887;
-  border-top-left-radius: clamp(20px, 6vw, 40px); /* Scaled (width-related) */
+  border-top-left-radius: clamp(20px, 6vw, 40px); 
   border-top-right-radius: clamp(20px, 6vw, 40px);
   box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
   z-index: 10;
@@ -215,12 +215,12 @@ body.home-body-white {
 
 .bottom-container {
   display: flex;
-  justify-content: space-between; /* Keeps buttons on sides */
+  justify-content: space-between; 
   align-items: center;
-  width: clamp(250px, 85vw, 1000px); /* Responsive width only */
-  height: 100%; /* Fill fixed container height */
-  padding: 0 clamp(0.25rem, 2vw, 1.5rem); /* Scaled padding for width fit */
-  gap: clamp(5px, 2vw, 19px); /* Smaller gap on mobile for horizontal fit */
+  width: clamp(250px, 85vw, 1000px); 
+  height: 100%; 
+  padding: 0 clamp(0.25rem, 2vw, 1.5rem);
+  gap: clamp(5px, 2vw, 19px); 
 }
 
 .left-column,
@@ -232,28 +232,28 @@ body.home-body-white {
 
 .btn-footer {
   width: 100%; 
-  max-width: clamp(100px, 35vw, 180px); /* Scaled max-width for mobile horizontal fit */
+  max-width: clamp(100px, 35vw, 180px);
   background-color: #B9DA65;
   color: #115E38;
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  height: 45px; /* Fixed height, non-responsive */
+  height: 45px; 
   border-radius: 9999px;
-  font-size: 0.8rem; /* Fixed font size */
+  font-size: 0.8rem; 
   transition: background-color 0.3s;
   border: none;
   cursor: pointer;
   box-shadow: 0 0 7px rgba(0, 0, 0, 0.5);
-  flex-shrink: 1; /* Allow shrinking on mobile */
-  white-space: normal; /* Allow text wrap if needed on very small screens */
-  padding: 0 0.5rem; /* Internal padding for text fit */
+  flex-shrink: 1;
+  white-space: normal; 
+  padding: 0 0.5rem; 
   text-align: center;
-  margin: 0; /* Clean margins */
+  margin: 0;
 }
 
 .btn-start-cleaning {
   position: absolute;
-  top: clamp(190%, 200%, 195%); /* Increased top to lower and space out */
+  top: clamp(190%, 200%, 195%);
   left: 50%;
   transform: translateX(-50%);
   background-color: #B9DA65;
@@ -262,15 +262,14 @@ body.home-body-white {
   font-weight: 650;
   padding: clamp(0.4rem, 2vh, 0.6rem) clamp(1rem, 4vw, 2rem);
   border-radius: 9999px;
-  font-size: 1.25rem; /* Fixed font size */
+  font-size: 1.25rem;
   border: none;
   cursor: pointer;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.9);
   transition: background-color 0.3s ease, transform 0.2s ease;
-  min-width: 150px; /* Prevent too-narrow on mobile */
+  min-width: 150px; 
   z-index: 5;
-  margin: 0.5rem 0; /* Added margin for extra white space */
-}
+  margin: 0.5rem 0;
 
 .btn-start-cleaning:active {
   transform: translateX(-50%) scale(0.97);
@@ -288,18 +287,18 @@ body.home-body-white {
 
 .status-text {
   position: absolute;
-  top: clamp(230%, 240%, 225%); /* Increased top to lower and maximize space below */
+  top: clamp(230%, 240%, 225%);
   left: 50%;
   transform: translateX(-50%);
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.9rem; /* Fixed font size */
+  font-size: 0.9rem;
   font-weight: 500;
   color: #2a2a2a;
   text-align: center;
   width: 100%;
-  max-width: 90%; /* Prevent overflow */
+  max-width: 90%;
   z-index: 5;
-  margin-top: 0.5rem; /* Added margin for white space */
+  margin-top: 0.5rem;
 }
 
 .info-container {
@@ -308,18 +307,18 @@ body.home-body-white {
   background-color: #D5F4EC;
   padding: clamp(0.5rem, 2vh, 1rem) clamp(0.75rem, 3vw, 1.5rem);
   border-radius: 12px;
-  min-width: clamp(280px, 80vw, 340px); /* Reduced min for mobile */
+  min-width: clamp(280px, 80vw, 340px); 
   max-width: 90%;      
   width: fit-content;  
   box-sizing: border-box;
-  margin-top: 2rem; /* Increased margin for more white space from header elements */
+  margin-top: 2rem; 
 }
 
 .info-row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.6rem;
-  flex-wrap: wrap; /* Allow wrapping on very small screens */
+  flex-wrap: wrap; 
   gap: 0.5rem;
 }
 
@@ -327,11 +326,10 @@ body.home-body-white {
 .value {
   font-weight: 700;
   color: #0b6b57;
-  flex: 1; /* Equal space on wrap */
-  min-width: 120px; /* Prevent too-narrow labels */
+  flex: 1; 
+  min-width: 120px; 
 }
 
-/* Mobile Styles (≤ 480px) */
 @media (max-width: 480px) {
   .home-header-container {
     padding: 0.5rem;
@@ -345,32 +343,30 @@ body.home-body-white {
   }
 
   .icon-btn {
-    padding: 0.75rem; /* Larger padding for better mobile interaction */
+    padding: 0.75rem; 
   }
 
-  /* Bottom container: Keep horizontal, adjust for width fit only */
   .bottom-container {
-    padding: 0 0.5rem; /* Slightly increased */
-    gap: 10px; /* Slightly larger gap for horizontal fit */
+    padding: 0 0.5rem;
+    gap: 10px; 
   }
 
   .btn-footer {
-    max-width: 120px; /* Slightly increased for better fit with larger icons */
-    padding: 0 0.5rem; /* Maintain internal padding */
+    max-width: 120px;
+    padding: 0 0.5rem; 
   }
 
   .info-row {
-    justify-content: center; /* Center on mobile if wrapped */
+    justify-content: center; 
   }
 
   .label,
   .value {
-    min-width: auto; /* Allow full wrap */
+    min-width: auto;
     text-align: center;
   }
 }
 
-/* Tablet Styles (481px - 768px) */
 @media (min-width: 481px) and (max-width: 768px) {
   .home-header-container {
     padding: 0.75rem 1rem;
@@ -391,10 +387,9 @@ body.home-body-white {
   }
 }
 
-/* Desktop Styles (> 768px) - Mostly original, with minor tweaks */
 @media (min-width: 769px) {
   .home-header {
-    padding: 1.25rem 0; /* Slightly increased for consistency */
+    padding: 1.25rem 0; 
   }
 
   .info-container {

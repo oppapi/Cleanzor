@@ -1,11 +1,8 @@
-// Import the functions you need from the Firebase SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-analytics.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-// Optional: For fetching additional user data from Firestore post-login
-// import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
-// Your web app's Firebase configuration (same as signup)
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCiBFlPxGa3tlLwPQJSssl3Bai2psbqwJY",
   authDomain: "cleanzorv6.firebaseapp.com",
@@ -20,26 +17,22 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
-// Optional: const db = getFirestore(app); // For Firestore
 
-// Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOM loaded - starting element checks...'); // Debug: Confirm event fires
+  console.log('DOM loaded - starting element checks...'); 
 
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
   const showPasswordCheckbox = document.getElementById('showPassword');
-  const loginButton = document.getElementById('submit'); // Matches HTML id="submit"
-  const loginForm = document.querySelector('.login-form'); // Matches HTML class="login-form"
+  const loginButton = document.getElementById('submit'); 
+  const loginForm = document.querySelector('.login-form'); 
 
-  // Debug: Log each element to see what's missing (remove after testing)
   console.log('emailInput:', emailInput);
   console.log('passwordInput:', passwordInput);
   console.log('showPasswordCheckbox:', showPasswordCheckbox);
   console.log('loginButton:', loginButton);
   console.log('loginForm:', loginForm);
 
-  // Early return if required elements are missing (prevents crashes)
   if (!emailInput || !passwordInput || !loginForm || !loginButton) {
     console.error('Required form elements not found. Check your HTML selectors.');
     console.error('Missing elements:', {
@@ -51,29 +44,23 @@ document.addEventListener('DOMContentLoaded', function() {
     return;
   }
 
-  console.log('All elements found - initializing login...'); // Debug: Success
+  console.log('All elements found - initializing login...');
 
-  // Show/hide password toggle (safe: checks for checkbox existence)
   if (showPasswordCheckbox) {
     showPasswordCheckbox.addEventListener('change', () => {
       passwordInput.type = showPasswordCheckbox.checked ? 'text' : 'password';
     });
   }
 
-  // Handle form submission (safe: loginForm is checked above)
   loginForm.addEventListener('submit', function(event) {
     event.preventDefault();
     handleLogin();
   });
 
-  // No need for fallback button click listener - form submission handles it
-
-  // Login handler function
   function handleLogin() {
     const email = emailInput.value.trim();
     const password = passwordInput.value.trim();
 
-    // Reset previous errors
     emailInput.classList.remove('error');
     passwordInput.classList.remove('error');
 
@@ -100,9 +87,8 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
-    // Disable button during login to prevent multiple submissions (safe: loginButton checked above)
     loginButton.disabled = true;
-    loginButton.textContent = 'LOGGING IN...'; // Matches your button style
+    loginButton.textContent = 'LOGGING IN...'; 
 
     // Firebase login
     signInWithEmailAndPassword(auth, email, password)
@@ -110,17 +96,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Signed in successfully
         const user = userCredential.user;
         console.log('User logged in:', user.uid);
-
-        // Optional: Fetch additional user data from Firestore
-        // const userRef = doc(db, 'users', user.uid);
-        // getDoc(userRef).then((docSnap) => {
-        //   if (docSnap.exists()) {
-        //     console.log('User data:', docSnap.data());
-        //     // e.g., Update UI with fullName or cleanzorID
-        //   }
-        // }).catch((error) => {
-        //   console.error('Error fetching user data:', error);
-        // });
 
         showLoadingAndRedirect('home.html');
       })
@@ -134,25 +109,22 @@ document.addEventListener('DOMContentLoaded', function() {
              case 'auth/wrong-password':
                errorMessage = 'Incorrect password. Please try again.';
                break;
-             case 'auth/invalid-credential':  // Add this case
+             case 'auth/invalid-credential':
                errorMessage = 'Invalid email or password. Please try again.';
                break;
-             // ... other cases
              default:
                errorMessage = error.message || 'An unexpected error occurred.';
            }
            alert(errorMessage);
-        passwordInput.value = ''; // Clear password on error for security
+        passwordInput.value = '';
         passwordInput.classList.add('error');
         passwordInput.focus();
 
-        // Re-enable button
         loginButton.disabled = false;
-        loginButton.textContent = 'LOGIN'; // Restore original text
+        loginButton.textContent = 'LOGIN'; 
       });
   }
 
-  // Loading and redirect function
   function showLoadingAndRedirect(url) {
     const overlay = document.getElementById('loadingOverlay');
     if (overlay) {
