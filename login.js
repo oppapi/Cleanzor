@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log('User logged in:', user.uid);
+        alert('User logged in:', user.uid);
 
         
         showLoadingAndRedirect('home.html');

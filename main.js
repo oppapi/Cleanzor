@@ -135,7 +135,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function showLoadingAndRedirect(url) {
-    console.log("Loading and redirecting to:", url);
     const overlay = document.getElementById('loadingOverlay');
     if (overlay) {
       overlay.style.display = 'flex';
@@ -143,6 +142,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setTimeout(() => {
       window.location.href = url;
-    }, 500); 
+    }, 250); 
   }
 });

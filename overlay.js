@@ -1,11 +1,11 @@
 function showLoadingAndRedirect(url) {
-  console.log("Loading and redirecting to:", url);
+  alert("Loading and redirecting to:", url);
   
   const overlay = document.getElementById('loadingOverlay');
   if (overlay) {
     overlay.style.display = 'flex';
   } else {
-    console.error('Loading overlay element not found. Redirecting anyway.');
+    alert('Loading overlay element not found. Redirecting anyway.');
   }
   
   setTimeout(() => {
