@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Email validation
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailPattern.test(email)) {
-      alert('Please enter a valid email address.');
+      showToast('Please enter a valid email address.');
       emailInput.classList.add('error');
       emailInput.focus();
       return;
