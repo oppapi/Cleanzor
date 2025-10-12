@@ -125,13 +125,9 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   }
 
-  function showLoadingAndRedirect(url) {
+function showLoadingAndRedirect(url) {
     const overlay = document.getElementById('loadingOverlay');
-    if (overlay) {
-      overlay.style.display = 'flex';
-    }
-    setTimeout(() => {
-      window.location.href = url;
-    }, 500);
-  }
+    overlay.style.display = 'flex';
+    setTimeout(() => window.location.href = url, 500);
+}
 });

@@ -1,66 +1,155 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-analytics.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCiBFlPxGa3tlLwPQJSssl3Bai2psbqwJY",
-  authDomain: "cleanzorv6.firebaseapp.com",
-  projectId: "cleanzorv6",
-  storageBucket: "cleanzorv6.firebasestorage.app",
-  messagingSenderId: "466216817805",
-  appId: "1:466216817805:web:a04b203b55e9b609c97ec4",
-  measurementId: "G-T83KMEBWE2"
-};
-
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const auth = getAuth(app);
-
 document.addEventListener('DOMContentLoaded', function() {
-  const form = document.querySelector('.main-form');
+  console.log('Register page loaded - initializing form...');
 
-  form.addEventListener('submit', function(event) {
-    event.preventDefault(); 
+  const { initializeApp, getAuth, createUserWithEmailAndPassword } = window.firebaseModules;
 
-    const fullName = document.getElementById('full-name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const cleanzorID = document.getElementById('cleanzorID').value.trim();
-    const password = document.getElementById('password').value;
+  // Firebase configuration (from your previous messages)
+  const firebaseConfig = {
+    apiKey: "AIzaSyCiBFlPxGa3tlLwPQJSssl3Bai2psbqwJY",
+    authDomain: "cleanzorv6.firebaseapp.com",
+    projectId: "cleanzorv6",
+    storageBucket: "cleanzorv6.firebasestorage.app",
+    messagingSenderId: "466216817805",
+    appId: "1:466216817805:web:a04b203b55e9b609c97ec4",
+    measurementId: "G-T83KMEBWE2"
+  };
 
-    if (!fullName || !email || !password) {
-      alert('Please fill in all required fields (Full Name, Email, and Password).');
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Form elements
+  const signupForm = document.getElementById('signupForm');
+  const fullNameInput = document.getElementById('full-name');
+  const emailInput = document.getElementById('email');
+  const cleanzorIDInput = document.getElementById('cleanzorID');
+  const passwordInput = document.getElementById('password');
+  const submitButton = document.getElementById('submit');
+
+  if (!signupForm || !fullNameInput || !emailInput || !passwordInput || !submitButton) {
+    console.error('Signup form elements not found.');
+    return;
+  }
+
+  console.log('Form elements found - attaching event listeners.');
+
+  // Form submission
+  signupForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    handleSignup();
+  });
+
+  function handleSignup() {
+    // Get and trim values
+    const fullName = fullNameInput.value.trim();
+    const email = emailInput.value.trim();
+    const cleanzorID = cleanzorIDInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    // Clear previous errors
+    [fullNameInput, emailInput, cleanzorIDInput, passwordInput].forEach(input => {
+      input.classList.remove('error');
+    });
+
+    // Validation
+    if (fullName === '') {
+      alert('Please enter your full name.');
+      fullNameInput.classList.add('error');
+      fullNameInput.focus();
+      return;
+    }
+    if (fullName.length < 2) {
+      alert('Full name must be at least 2 characters long.');
+      fullNameInput.classList.add('error');
+      fullNameInput.focus();
+      return;
+    }
+
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+      alert('Please enter a valid email address.');
+      emailInput.classList.add('error');
+      emailInput.focus();
+      return;
+    }
+
+    if (cleanzorID !== '' && cleanzorID.length < 3) {
+      alert('Cleanzor ID must be at least 3 characters long if provided.');
+      cleanzorIDInput.classList.add('error');
+      cleanzorIDInput.focus();
+      return;
+    }
+
+    if (password === '') {
+      alert('Please enter a password.');
+      passwordInput.classList.add('error');
+      passwordInput.focus();
       return;
     }
     if (password.length < 6) {
       alert('Password must be at least 6 characters long.');
+      passwordInput.classList.add('error');
+      passwordInput.focus();
       return;
     }
 
+    // Disable button and update text
+    submitButton.disabled = true;
+    submitButton.textContent = 'CREATING ACCOUNT...';
+
+    // Firebase signup
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         console.log('User signed up:', user.uid);
-        
-        alert('Account created successfully! Redirecting to login...');
-        window.location.href = 'index.html';
+
+        // Store additional user data locally (use Firestore for production)
+        localStorage.setItem('userFullName', fullName);
+        if (cleanzorID) {
+          localStorage.setItem('userCleanzorID', cleanzorID);
+        }
+
+        // Optional: Send email verification
+        // user.sendEmailVerification();
+
+        // Redirect on success using global function
+        window.showLoadingAndRedirect('home.html'); // Adjust URL as needed (e.g., 'dashboard.html')
       })
       .catch((error) => {
         console.error('Signup error:', error);
-        let errorMessage = 'An error occurred during signup.';
+        let errorMessage = 'Signup failed. Please try again.';
         switch (error.code) {
           case 'auth/email-already-in-use':
-            errorMessage = 'This email is already registered. Please log in instead.';
+            errorMessage = 'An account with this email already exists. Please log in.';
             break;
           case 'auth/weak-password':
-            errorMessage = 'Password is too weak. Please choose a stronger one.';
+            errorMessage = 'Password is too weak. Use at least 6 characters.';
             break;
           case 'auth/invalid-email':
             errorMessage = 'Invalid email address.';
             break;
           default:
-            errorMessage = error.message;
+            errorMessage = error.message || 'An unexpected error occurred.';
         }
         alert(errorMessage);
+
+        // Reset form on error
+        emailInput.classList.add('error');
+        passwordInput.value = '';
+        emailInput.focus();
+
+        // Re-enable button
+        submitButton.disabled = false;
+        submitButton.textContent = 'Create Account';
       });
-  });   
+  }
+
+  // Optional: Fallback event listener for login link (enhances onclick)
+  const loginBtn = document.getElementById('loginBtn');
+  if (loginBtn) {
+    loginBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.showLoadingAndRedirect('index.html');
+    });
+  }
 });

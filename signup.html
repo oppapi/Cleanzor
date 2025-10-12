@@ -8,6 +8,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Lilita+One&display=swap" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
+    import { getAuth, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+    window.firebaseModules = { initializeApp, getAuth, createUserWithEmailAndPassword };
+  </script>
 </head>
 
 <body class="body-white">
@@ -26,7 +32,7 @@
 
       <h2 class="main-title">Sign Up</h2>
 
-      <form class="main-form">
+      <form class="main-form" id="signupForm">
         <div class="main-form-group">
           <label class="labelBox" for="full-name">Full Name</label>
           <input type="text" id="full-name" class="inputBox" placeholder="Enter your full name" required />
@@ -47,15 +53,20 @@
           <input type="password" id="password" class="inputBox" placeholder="Create a password" required />
         </div>
 
-  <button type="submit" id="submit" class="main-button">Create Account</button>
+        <button type="submit" id="submit" class="main-button">Create Account</button>
       </form>
 
       <p class="main-text">
         Already have an account? 
-        <a href="index.html">Login</a>
+        <a href="index.html" id="loginBtn" onclick="showLoadingAndRedirect('index.html'); return false;">Login</a>
       </p>
     </section>
   </main>
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="loader">LOADING...</div>
+  </div>
+
+  <script src="overlay.js"></script>
   <script type="module" src="register.js" defer></script>
 </body>
 </html>

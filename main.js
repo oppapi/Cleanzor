@@ -1,3 +1,4 @@
+// main.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-analytics.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
@@ -26,25 +27,28 @@ document.addEventListener('DOMContentLoaded', function() {
   const showPasswordCheckbox = document.getElementById('showPassword');
   const loginButton = document.getElementById('submit'); 
   const loginForm = document.querySelector('.login-form'); 
+  const signupButton = document.getElementById('signupBtn');
 
   console.log('emailInput:', emailInput);
   console.log('passwordInput:', passwordInput);
   console.log('showPasswordCheckbox:', showPasswordCheckbox);
   console.log('loginButton:', loginButton);
   console.log('loginForm:', loginForm);
+  console.log('signupButton:', signupButton);
 
-  if (!emailInput || !passwordInput || !loginForm || !loginButton) {
+  if (!emailInput || !passwordInput || !loginForm || !loginButton || !signupButton) {
     console.error('Required form elements not found. Check your HTML selectors.');
     console.error('Missing elements:', {
       email: !!emailInput,
       password: !!passwordInput,
       form: !!loginForm,
-      button: !!loginButton
+      button: !!loginButton,
+      signup: !!signupButton
     });
     return;
   }
 
-  console.log('All elements found - initializing login...');
+  console.log('All elements found - initializing login and signup...');
 
   if (showPasswordCheckbox) {
     showPasswordCheckbox.addEventListener('change', () => {
@@ -52,6 +56,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  signupButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    showLoadingAndRedirect('signup.html');
+  });
+
+  // Login form submission
   loginForm.addEventListener('submit', function(event) {
     event.preventDefault();
     handleLogin();
@@ -93,29 +103,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // Firebase login
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in successfully
         const user = userCredential.user;
         console.log('User logged in:', user.uid);
 
         showLoadingAndRedirect('home.html');
       })
-         .catch((error) => {
-           console.error('Login error:', error);
-           let errorMessage = 'Login failed. Please check your email and password.';
-           switch (error.code) {
-             case 'auth/user-not-found':
-               errorMessage = 'No account found with this email. Please sign up.';
-               break;
-             case 'auth/wrong-password':
-               errorMessage = 'Incorrect password. Please try again.';
-               break;
-             case 'auth/invalid-credential':
-               errorMessage = 'Invalid email or password. Please try again.';
-               break;
-             default:
-               errorMessage = error.message || 'An unexpected error occurred.';
-           }
-           alert(errorMessage);
+      .catch((error) => {
+        console.error('Login error:', error);
+        let errorMessage = 'Login failed. Please check your email and password.';
+        switch (error.code) {
+          case 'auth/user-not-found':
+            errorMessage = 'No account found with this email. Please sign up.';
+            break;
+          case 'auth/wrong-password':
+            errorMessage = 'Incorrect password. Please try again.';
+            break;
+          case 'auth/invalid-credential':
+            errorMessage = 'Invalid email or password. Please try again.';
+            break;
+          default:
+            errorMessage = error.message || 'An unexpected error occurred.';
+        }
+        alert(errorMessage);
         passwordInput.value = '';
         passwordInput.classList.add('error');
         passwordInput.focus();
@@ -126,12 +135,14 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function showLoadingAndRedirect(url) {
+    console.log("Loading and redirecting to:", url);
     const overlay = document.getElementById('loadingOverlay');
     if (overlay) {
       overlay.style.display = 'flex';
     }
+
     setTimeout(() => {
       window.location.href = url;
-    }, 500);
+    }, 500); 
   }
 });
