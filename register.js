@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
           localStorage.setItem('userCleanzorID', cleanzorID);
         }
 
-        window.showLoadingAndRedirect('index.html'); 
+        window.showLoadingAndRedirect('home.html'); 
       })
       .catch((error) => {
         console.error('Signup error:', error);
