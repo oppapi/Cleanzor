@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Password validation
     if (password === '') {
-      alert('Please enter your password.');
+      alert('Please enter your passwosfsrd.');
       passwordInput.classList.add('error');
       passwordInput.focus();
       return;
@@ -94,25 +94,27 @@ document.addEventListener('DOMContentLoaded', function() {
       .catch((error) => {
         console.error('Login error:', error);
         let errorMessage = 'Login failed. Please check your credentials.';
+        
         switch (error.code) {
           case 'auth/user-not-found':
-            errorMessage = 'No account found with this email. Please sign up.';
+            showWarning('No account found with this email. Please sign up.');
             break;
           case 'auth/wrong-password':
-            errorMessage = 'Incorrect password. Please try again.';
+            showError('Incorrect password. Please try again.');
             break;
           case 'auth/invalid-email':
-            errorMessage = 'Invalid email address.';
+            showWarning('Invalid email address.');
             break;
           case 'auth/too-many-requests':
-            errorMessage = 'Too many failed attempts. Please try again later.';
+            showInfo('Too many failed attempts. Please try again later.');
             break;
           case 'auth/network-request-failed':
-            errorMessage = 'Network error. Please check your connection and try again.';
+            showError('Network error. Please check your connection and try again.');
             break;
           default:
-            errorMessage = error.message || 'An unexpected error occurred.';
+            showError(error.message || 'An unexpected error occurred.');
         }
+
         alert(errorMessage);
         passwordInput.value = '';
         passwordInput.classList.add('error');
