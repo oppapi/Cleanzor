@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('Register page loaded - initializing form...');
 
   const { initializeApp, getAuth, createUserWithEmailAndPassword } = window.firebaseModules;
 
@@ -30,8 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
     console.error('Signup form elements not found.');
     return;
   }
-
-  console.log('Form elements found - attaching event listeners.');
 
   // Form submission
   signupForm.addEventListener('submit', function(event) {
@@ -93,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
-    // Disable button and update text
     submitButton.disabled = true;
     submitButton.textContent = 'CREATING ACCOUNT...';
 
@@ -101,19 +97,13 @@ document.addEventListener('DOMContentLoaded', function() {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log('User signed up:', user.uid);
 
-        // Store additional user data locally (use Firestore for production)
         localStorage.setItem('userFullName', fullName);
         if (cleanzorID) {
           localStorage.setItem('userCleanzorID', cleanzorID);
         }
 
-        // Optional: Send email verification
-        // user.sendEmailVerification();
-
-        // Redirect on success using global function
-        window.showLoadingAndRedirect('home.html'); // Adjust URL as needed (e.g., 'dashboard.html')
+        window.showLoadingAndRedirect('home.html'); 
       })
       .catch((error) => {
         console.error('Signup error:', error);
@@ -133,18 +123,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         alert(errorMessage);
 
-        // Reset form on error
         emailInput.classList.add('error');
         passwordInput.value = '';
         emailInput.focus();
 
-        // Re-enable button
         submitButton.disabled = false;
         submitButton.textContent = 'Create Account';
       });
   }
 
-  // Optional: Fallback event listener for login link (enhances onclick)
   const loginBtn = document.getElementById('loginBtn');
   if (loginBtn) {
     loginBtn.addEventListener('click', function(e) {

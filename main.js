@@ -20,7 +20,6 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOM loaded - starting element checks...'); 
 
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
@@ -28,13 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const loginButton = document.getElementById('submit'); 
   const loginForm = document.querySelector('.login-form'); 
   const signupButton = document.getElementById('signupBtn');
-
-  console.log('emailInput:', emailInput);
-  console.log('passwordInput:', passwordInput);
-  console.log('showPasswordCheckbox:', showPasswordCheckbox);
-  console.log('loginButton:', loginButton);
-  console.log('loginForm:', loginForm);
-  console.log('signupButton:', signupButton);
 
   if (!emailInput || !passwordInput || !loginForm || !loginButton || !signupButton) {
     console.error('Required form elements not found. Check your HTML selectors.');
@@ -47,8 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     return;
   }
-
-  console.log('All elements found - initializing login and signup...');
 
   if (showPasswordCheckbox) {
     showPasswordCheckbox.addEventListener('change', () => {
@@ -104,7 +94,6 @@ document.addEventListener('DOMContentLoaded', function() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log('User logged in:', user.uid);
 
         showLoadingAndRedirect('home.html');
       })
