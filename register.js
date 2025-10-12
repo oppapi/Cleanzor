@@ -25,6 +25,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const passwordInput = document.getElementById('password');
   const submitButton = document.getElementById('submit');
 
+  if (!signupForm || !fullNameInput || !emailInput || !passwordInput || !submitButton) {
+    console.error('Signup form elements not found.');
+    return;
+  }
+
   // Form submission
   signupForm.addEventListener('submit', function(event) {
     event.preventDefault();
@@ -98,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
           localStorage.setItem('userCleanzorID', cleanzorID);
         }
 
-        window.location.href = 'index.html'; 
+        window.showLoadingAndRedirect('index.html'); 
       })
       .catch((error) => {
         console.error('Signup error:', error);
