@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
           localStorage.setItem('userCleanzorID', cleanzorID);
         }
 
-        window.locationn.href = 'index.html'; 
+        window.location.href = 'index.html'; 
       })
       .catch((error) => {
         console.error('Signup error:', error);
