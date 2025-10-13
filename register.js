@@ -132,8 +132,8 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   }
 
-  const signupBtn = document.getElementById('signupBtn');
-  if (signupBtn) {
+  const loginBtn = document.getElementById('loginBtn');
+  if (loginBtn) {
     loginBtn.addEventListener('click', function(e) {
       e.preventDefault();
       window.showLoadingAndRedirect('index.html');
